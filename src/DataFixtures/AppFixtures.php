@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Comment;
-use App\Entity\Post;
 use Faker\Factory;
+use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Comment;
+use App\Entity\PostLike;
+use App\Entity\CommentLike;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -19,9 +21,10 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $usersArray = [];
+        $usersNumber = 10;
 
-        // New users
-        for ($i = 0; $i < 10; $i++) {
+        // new users
+        for ($i = 0; $i < $usersNumber; $i++) {
             $user = new User();
             $hashedPassword = $this->hasher->hashPassword($user, 'password');
             $user->setUsername($faker->userName())
@@ -44,6 +47,15 @@ class AppFixtures extends Fixture
             ;
 
             $manager->persist($post);
+            // new likes
+            for ($n = 0; $n < mt_rand(0, $usersNumber); $n++) {
+                $like = new PostLike();
+                $like->setUser($usersArray[$n])
+                    ->setPost($post)
+                ;
+
+                $manager->persist($like);
+            }
 
             // New comments
             for ($k = 0; $k < mt_rand(3, 5); $k++) {
@@ -55,6 +67,15 @@ class AppFixtures extends Fixture
                 ;
 
                 $manager->persist($comment);
+                // new likes
+                for ($n = 0; $n < mt_rand(0, $usersNumber); $n++) {
+                    $like = new CommentLike();
+                    $like->setUser($usersArray[$n])
+                        ->setComment($comment)
+                    ;
+
+                    $manager->persist($like);
+                }
             }
         }
 

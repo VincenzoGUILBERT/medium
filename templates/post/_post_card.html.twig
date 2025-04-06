@@ -4,7 +4,7 @@
 		<header class="header">
 			<div class="title">
 				<h1>{{post.title | u.truncate(100, '...')}}</h1>
-				<span class="like">3 likes</span>
+				<span class="like">{{ post.likes | length }}</span>
 			</div>
 			<div class="tags">
 				<span>tag</span>
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<div class="stats">
-				<span>3 comments</span>
+				<span>{{ post.comments | length }} comments</span>
 			</div>
 		</footer>
 	</div>
