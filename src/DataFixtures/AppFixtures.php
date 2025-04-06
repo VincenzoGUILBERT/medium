@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use Faker\Factory;
 use App\Entity\User;
@@ -20,7 +21,7 @@ class AppFixtures extends Fixture
         $usersArray = [];
 
         // New users
-        for ($i=0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $hashedPassword = $this->hasher->hashPassword($user, 'password');
             $user->setUsername($faker->userName())
@@ -34,15 +35,26 @@ class AppFixtures extends Fixture
         }
 
         // new posts
-        for ($j=0; $j < 50; $j++) { 
+        for ($j = 0; $j < 50; $j++) {
             $post = new Post();
             $post->setTitle($faker->sentence())
                 ->setContent($faker->paragraph(10, true))
                 ->setAuthor($usersArray[mt_rand(0, 9)])
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
             ;
-            
+
             $manager->persist($post);
+
+            for ($k = 0; $k < mt_rand(3, 5); $k++) {
+                $comment = new Comment();
+                $comment->setContent($faker->paragraph(mt_rand(1, 5)))
+                    ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
+                    ->setAuthor($usersArray[mt_rand(0, 9)])
+                    ->setPost($post)
+                ;
+
+                $manager->persist($comment);
+            }
         }
 
         $manager->flush();
