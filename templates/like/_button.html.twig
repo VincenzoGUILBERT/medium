@@ -1,0 +1,10 @@
+<span class="like-button d-flex gap-2 align-items-center" data-type="{{ type }}" data-id="{{ entity.id }}">
+	<span id="like-count">
+		{{ entity.likes | length }}
+    </span>
+	{% if app.user and entity.isLikedByUser(app.user) %}
+		<i id="like-icon" class="like fa-solid fa-heart"></i>
+	{% else %}
+		<i id="like-icon" class="like fa-regular fa-heart"></i>
+	{% endif %}
+</span>

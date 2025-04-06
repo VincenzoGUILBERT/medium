@@ -23,6 +23,13 @@ class AppFixtures extends Fixture
         $usersArray = [];
         $usersNumber = 10;
 
+        $me = new User();
+        $me->setUsername('vince')
+            ->setEmail('vincentguilbert13@gmail.com')
+            ->setPassword('password')
+        ;
+        $manager->persist($me);
+
         // new users
         for ($i = 0; $i < $usersNumber; $i++) {
             $user = new User();

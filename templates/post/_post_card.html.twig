@@ -4,7 +4,7 @@
 		<header class="header">
 			<div class="title">
 				<h1>{{post.title | u.truncate(100, '...')}}</h1>
-				<span class="like">{{ post.likes | length }}</span>
+				{{ include('like/_button.html.twig', {type: 'post', entity: post}) }}
 			</div>
 			<div class="tags">
 				<span>tag</span>

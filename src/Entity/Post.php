@@ -154,25 +154,13 @@ class Post
         return $this->likes;
     }
 
-    public function addLike(PostLike $like): static
+    public function isLikedByUser(User $user): bool
     {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-            $like->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(PostLike $like): static
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getPost() === $this) {
-                $like->setPost(null);
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return true;
             }
         }
-
-        return $this;
+        return false;
     }
 }

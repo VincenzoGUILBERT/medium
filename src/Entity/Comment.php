@@ -109,25 +109,13 @@ class Comment
         return $this->likes;
     }
 
-    public function addLike(CommentLike $like): static
+    public function isLikedByUser(User $user): bool
     {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-            $like->setComment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(CommentLike $like): static
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getComment() === $this) {
-                $like->setComment(null);
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return true;
             }
         }
-
-        return $this;
+        return false;
     }
 }
