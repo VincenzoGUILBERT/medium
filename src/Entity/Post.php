@@ -60,7 +60,7 @@ class Post
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'post')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'post', cascade: ['persist'])]
     #[ORM\OrderBy(['name' => 'ASC'])]
     #[Assert\Count(max: 4, maxMessage: 'You can add a maximum of {{ limit }} tags')]
     private Collection $tags;

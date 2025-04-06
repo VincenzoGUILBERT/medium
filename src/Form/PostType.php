@@ -3,11 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use App\Form\Type\TagsInputType;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostType extends AbstractType
@@ -19,6 +20,15 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
+            ->add('tags', TagsInputType::class, [
+                'label' => 'Tags',
+                'required' => false,
+                'attr' => [
+                    'data-ub-tag-separator' => " ",
+                    'data-ub-tag-max' => 4,
+                    'data-ub-tag-variant' => "primary"
+                ]
+            ])
             ->addEventListener(FormEvents::POST_SUBMIT, $this->setPostAuthor(...))
         ;
     }

@@ -2,6 +2,15 @@
 
 {% block title %}New Post{% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('tags-input') }}
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('tags-input') }}
+{% endblock %}
+
 {% block main %}
     <h1>Create new Post</h1>
 
