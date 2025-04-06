@@ -1,0 +1,133 @@
+.post-card {
+	display: flex;
+	position: relative;
+	padding-bottom: 2em;
+	margin-bottom: 2em;
+	border-bottom: 1px solid rgb(213, 213, 213);
+
+	.image {
+		width: 200px;
+		height: 150px;
+		object-fit: cover;
+		border-radius: 15px;
+	}
+
+	.content {
+		width: 100%;
+		padding: 0.2em 1em;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.title {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		margin-bottom: 0em;
+	}
+
+	h1 {
+		font-size: 1.3em;
+		margin: 0;
+		padding-right: 1em;
+	}
+
+	.tags span {
+        position: relative;
+        z-index: 10;
+		padding: 0.1em 0.5em;
+		background-color: #c8c8c8;
+		border-radius: 5px;
+		margin-right: 0.5em;
+		font-size: 0.8em;
+	}
+
+	.like {
+		position: relative;
+		z-index: 10;
+		font-size: 1.2em;
+        min-width: 48px;
+        text-align: end;
+	}
+
+	.footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.stats span {
+		margin-left: 1em;
+	}
+	a.post-link {
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.author {
+	display: flex;
+	align-items: center;
+}
+
+.author-image {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 50%;
+	margin-right: 0.5em;
+}
+
+.username span {
+	display: block;
+}
+
+.username span:nth-of-type(2) {
+	font-size: 0.7em;
+	color: rgb(68, 68, 68);
+}
+
+.post {
+	.author {
+		margin-top: 1em;
+	}
+
+	.author-image {
+		width: 3.5em;
+		height: 3.5em;
+	}
+
+	.username span {
+		display: block;
+		font-size: 1.1em;
+	}
+
+	.username span:nth-of-type(2) {
+		font-size: 0.8em;
+		color: rgb(68, 68, 68);
+		line-height: 2em;
+	}
+
+	.img {
+		height: auto;
+		align-self: center;
+		margin: 3em 0;
+	}
+
+	.content {
+		font-size: 1.2em;
+		margin-bottom: 1.5em;
+	}
+
+	.tags span {
+		padding: 0.1em 0.5em;
+		background-color: #c8c8c8;
+		border-radius: 5px;
+		margin-right: 0.5em;
+		font-size: 1em;
+	}
+}
