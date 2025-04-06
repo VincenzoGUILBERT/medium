@@ -23,7 +23,7 @@
 		<img src="https://placehold.co/800x600" class="img">
 		<p class="content">{{ post.content | markdown_to_html }}</p>
 		<div class="tags">
-			<span>tag</span>
+			{{ include('post/_tags.html.twig') }}
 		</div>
 	</article>
 

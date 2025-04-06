@@ -16,16 +16,23 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    public function findAllWithJoin(): array
+    public function findAllWithJoin($tag): array
     {
-        return $this->createQueryBuilder('p')
-            ->addSelect('a', 'c', 'l')
+        $qb = $this->createQueryBuilder('p')
+            ->addSelect('a', 't', 'c', 'l')
             ->innerJoin('p.author', 'a')
             ->leftJoin('p.comments', 'c')
             ->leftJoin('p.likes', 'l')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->leftJoin('p.tags', 't')
+            ->orderBy('p.createdAt', 'DESC');
+
+        if ($tag !== null) {
+            $qb->andWhere(':tag MEMBER OF p.tags')
+                ->setParameter('tag', $tag);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 
     public function findWithJoin(int $id): ?Post

@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block main %}
+
+    <div class="tags-container">
+        {% for tag in tags %}
+            <div class="tag-card">
+                <a href="{{path('app_post_index', {'tag': tag.name})}}"><h3>{{ tag.name }}</h3></a>
+                
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

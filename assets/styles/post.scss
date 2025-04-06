@@ -1,3 +1,5 @@
+$lightgrey: #f8f9fa;
+
 .post-card {
 	display: flex;
 	position: relative;
@@ -33,14 +35,12 @@
 		padding-right: 1em;
 	}
 
-	.tags span {
-        position: relative;
-        z-index: 10;
-		padding: 0.1em 0.5em;
-		background-color: #c8c8c8;
-		border-radius: 5px;
-		margin-right: 0.5em;
-		font-size: 0.8em;
+	.tags {
+		z-index: 10;
+		position: relative;
+		a{
+			text-decoration: none;
+		}
 	}
 
 	.like {
@@ -129,5 +129,33 @@
 		border-radius: 5px;
 		margin-right: 0.5em;
 		font-size: 1em;
+	}
+}
+
+.tags-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 180px);
+	gap: 1.5em;
+}
+
+.tags a {
+	text-decoration: none;
+}
+
+.tag-card,
+.user-card {
+	height: 180px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: $lightgrey;
+	border-radius: 15px;
+	transition-duration: 0.3s;
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	&:hover {
+		box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 	}
 }

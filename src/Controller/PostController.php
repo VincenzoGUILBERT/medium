@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,16 @@ final class PostController extends AbstractController
 {
     
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
-    public function index(Request $request, PostRepository $postRepository): Response
+    public function index(Request $request, PostRepository $postRepository, TagRepository $tagRepository): Response
     {
+        $tag = null;
+
+        if ($request->query->has('tag')) {
+            $tag = $tagRepository->findOneBy(['name' => $request->query->get('tag')]);
+        }
+        
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAllWithJoin(),
+            'posts' => $postRepository->findAllWithJoin($tag),
         ]);
     }
     
@@ -77,5 +84,13 @@ final class PostController extends AbstractController
         }
 
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/tag', name: 'app_tag_index', methods: ['GET'])]
+    public function tagsIndex(TagRepository $tagRepository): Response
+    {
+        return $this->render('/post/tag_index.html.twig', [
+            'tags' => $tagRepository->findAll()
+        ]);
     }
 }
