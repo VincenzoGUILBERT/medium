@@ -45,6 +45,7 @@ class AppFixtures extends Fixture
 
             $manager->persist($post);
 
+            // New comments
             for ($k = 0; $k < mt_rand(3, 5); $k++) {
                 $comment = new Comment();
                 $comment->setContent($faker->paragraph(mt_rand(1, 5)))

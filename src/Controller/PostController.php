@@ -18,7 +18,7 @@ final class PostController extends AbstractController
     public function index(Request $request, PostRepository $postRepository): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $postRepository->findAllWithJoin(),
         ]);
     }
     
@@ -46,7 +46,7 @@ final class PostController extends AbstractController
     public function show(PostRepository $postRepository, $id): Response
     {
         return $this->render('post/show.html.twig', [
-            'post' => $postRepository->find($id)
+            'post' => $postRepository->findWithJoin($id)
         ]);
     }
     
