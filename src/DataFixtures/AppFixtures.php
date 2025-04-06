@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Tag;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Comment;
@@ -22,6 +23,37 @@ class AppFixtures extends Fixture
 
         $usersArray = [];
         $usersNumber = 10;
+        $tagsArray = [];
+        $tagsList = [
+            "html",
+            "css",
+            "javascript",
+            "php",
+            "python",
+            "ruby",
+            "java",
+            "nodejs",
+            "react",
+            "angular",
+            "vue",
+            "laravel",
+            "django",
+            "spring",
+            "express",
+            "jquery",
+            "typescript",
+            "sass",
+            "less",
+            "bootstrap",
+            "tailwind"
+        ];
+
+        foreach ($tagsList as $tagName) {
+            $tag = new Tag($tagName);
+
+            array_push($tagsArray, $tag);
+            $manager->persist($tag);
+        }
 
         $me = new User();
         $me->setUsername('vince')
@@ -52,6 +84,10 @@ class AppFixtures extends Fixture
                 ->setAuthor($usersArray[mt_rand(0, 9)])
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
             ;
+
+            for ($l=0; $l < mt_rand(1, 3); $l++) { 
+                $post->addTag($tagsArray[mt_rand(0, 19)]);
+            }
 
             $manager->persist($post);
             // new likes
