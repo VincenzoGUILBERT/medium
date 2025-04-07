@@ -3,6 +3,10 @@
 {% block title %}Post index
 {% endblock %}
 
+{% if app.request.query.get('param') == 'populars' %}
+	{% set posts =  posts | sort((a, b) => a.likes | length < b.likes | length) %}
+{% endif %}
+
 {% block main %}
 	<div class="col-9">
 		{% for post in posts %}
