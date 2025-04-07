@@ -1,0 +1,16 @@
+{% if app.user and app.user != user %}
+	{% set is_following = false %}
+	{% for follow in user.followers %}
+		{% if follow.follower.id == app.user.id %}
+			{% set is_following = true %}
+		{% endif %}
+	{% endfor %}
+
+	<span id="follow-btn" class="d-flex gap-2 align-items-center" data-id="{{ user.id }}">
+		{% if is_following %}
+			<i id="follow-icon" class="fa-solid fa-bookmark"></i>
+		{% else %}
+			<i id="follow-icon" class="fa-regular fa-bookmark"></i>
+		{% endif %}
+	</span>
+{% endif %}

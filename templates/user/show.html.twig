@@ -27,7 +27,10 @@
 		<div class="mb-5 user-profile-card">
 			<img class="user-profile-img" src="https://placehold.co/800x600" alt="">
 			<div>
-				<h1>{{ user.username }}</h1>
+				<div class="d-flex">
+					<h1>{{ user.username }}</h1>
+					 {{ include('user/_follow_button.html.twig') }}
+				</div>
 				<p>
 					Member since
 					{{ user.createdAt | date('d/m/Y') }}

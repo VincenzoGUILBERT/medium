@@ -36,6 +36,22 @@ class PostRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function findPostsFromFollowedUsers(User $user)
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('u', 'c', 'l', 't')
+            ->innerJoin('p.author', 'u')
+            ->innerJoin('u.followers', 'f')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.likes', 'l')
+            ->leftJoin('p.tags', 't')
+            ->where('f.follower = :currentUser')
+            ->setParameter('currentUser', $user)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findWithJoin(int $id): ?Post
     {
         return $this->createQueryBuilder('p')

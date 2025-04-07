@@ -25,3 +25,23 @@ document.querySelectorAll(".like-button").forEach((button) => {
 		});
 	});
 });
+
+document.querySelectorAll("#follow-btn").forEach((button) => {
+	button.addEventListener("click", function () {
+		let id = this.getAttribute('data-id')
+		let $followIcon = this.querySelector("#follow-icon");
+
+		fetch(`/follow/${id}`, { method: "POST" }).then((response) => {
+			switch (response.status) {
+				case 201:
+					$followIcon.className = "fa-solid fa-bookmark";
+					break;
+				case 204:
+					$followIcon.className = "fa-regular fa-bookmark";
+					break;
+				case 403:
+					alert("Please sign up to follow someone");
+			}
+		});
+	});
+});
