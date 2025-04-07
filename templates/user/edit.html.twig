@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block main %}
+    <div class="col-9">
+        <h1>Edit User</h1>
+        
+        {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    </div>
+{% endblock %}

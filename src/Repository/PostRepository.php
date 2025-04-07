@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -19,12 +20,12 @@ class PostRepository extends ServiceEntityRepository
     public function findAllWithJoin($tag): array
     {
         $qb = $this->createQueryBuilder('p')
-            ->addSelect('a', 't', 'c', 'l')
-            ->innerJoin('p.author', 'a')
-            ->leftJoin('p.comments', 'c')
-            ->leftJoin('p.likes', 'l')
-            ->leftJoin('p.tags', 't')
-            ->orderBy('p.createdAt', 'DESC');
+                ->addSelect('a', 't', 'c', 'l')
+                ->innerJoin('p.author', 'a')
+                ->leftJoin('p.comments', 'c')
+                ->leftJoin('p.likes', 'l')
+                ->leftJoin('p.tags', 't')
+                ->orderBy('p.createdAt', 'DESC');
 
         if ($tag !== null) {
             $qb->andWhere(':tag MEMBER OF p.tags')
@@ -32,20 +33,36 @@ class PostRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()
-            ->getResult();
+                ->getResult();
     }
 
     public function findWithJoin(int $id): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->addSelect('pa', 'c', 'ca')
+            ->addSelect('pa', 'c', 'ca', 't', 'l')
             ->innerJoin('p.author', 'pa')
             ->leftJoin('p.comments', 'c')
-            ->leftJoin('c.author', 'ca')
+            ->innerJoin('c.author', 'ca')
+            ->leftJoin('p.tags', 't')
+            ->leftJoin('c.likes', 'l')
             ->where('p.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function findAllByUser(User $user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.author = :user')
+            ->addSelect('c', 'l', 't')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.likes', 'l')
+            ->leftJoin('p.tags', 't')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
         ;
     }
     //    public function findOneBySomeField($value): ?Post

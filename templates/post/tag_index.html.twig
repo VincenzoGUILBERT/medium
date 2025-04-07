@@ -1,14 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% block main %}
-
-    <div class="tags-container">
-        {% for tag in tags %}
-            <div class="tag-card">
-                <a href="{{path('app_post_index', {'tag': tag.name})}}"><h3>{{ tag.name }}</h3></a>
-                
-            </div>
-        {% endfor %}
-    </div>
-
+	<div class="col-11">
+		<div class="tags-container">
+			{% for tag in tags %}
+				<div class="tag-card">
+					<span class="tag-name">{{ tag.name }}</span>
+					<span class="tag-post-count">{{ tag.postCount }} posts</span>
+					<a href="{{ path('app_post_index', {'tag': tag.name}) }}"></a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

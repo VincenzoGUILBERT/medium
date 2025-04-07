@@ -90,7 +90,7 @@ final class PostController extends AbstractController
     public function tagsIndex(TagRepository $tagRepository): Response
     {
         return $this->render('/post/tag_index.html.twig', [
-            'tags' => $tagRepository->findAll()
+            'tags' => $tagRepository->findallWithJoin()
         ]);
     }
 }

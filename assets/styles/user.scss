@@ -1,0 +1,46 @@
+.users-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 180px);
+	gap: 1.5em;
+}
+
+.user-card {
+	display: flex;
+	flex-direction: column;
+}
+
+.user-image {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+}
+
+.user-profile-card {
+	border-left: 1px solid rgb(213, 213, 213);
+	height: 100%;
+    padding: 0 2em;
+	.user-profile-img {
+		width: 96px;
+		height: 96px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+	h1{
+		font-size: 1.2em;
+	}
+	& *{
+		margin: 0.3em;
+	}
+}
+
+.select{
+	display: flex;
+	gap: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid rgb(213, 213, 213);
+	margin-bottom: 2em;
+	a{
+		text-decoration: none;
+		color: black;
+	}
+}

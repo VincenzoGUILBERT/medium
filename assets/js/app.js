@@ -1,5 +1,6 @@
 import '../styles/app.scss';
 import '../styles/post.scss';
+import '../styles/user.scss';
 
 document.querySelectorAll(".like-button").forEach((button) => {
 	button.addEventListener("click", function () {

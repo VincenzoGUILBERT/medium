@@ -22,13 +22,7 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add('username')
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'constraints' => [new Length(['min' => 8, 'minMessage' => 'Your password must be at least 8 characters long'])],
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Confirm Password'],
-            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, $this->addPasswordFields(...))
             ->addEventListener(FormEvents::POST_SUBMIT, $this->setHashedPassword(...))
         ;
     }
@@ -41,6 +35,23 @@ class UserType extends AbstractType
 
             $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hashedPassword);
+        }
+    }
+
+    public function addPasswordFields(FormEvent $event): void
+    {
+        $user = $event->getData();
+        $form = $event->getForm();
+
+        if (!$user || $user->getId() === null) {
+            $form->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Your passwords don\'t match.',
+                'constraints' => [new Length(['min' => 3, 'minMessage' => 'Your password must be at least 8 characters long'])],
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Confirm Password'],
+            ]);
         }
     }
 
