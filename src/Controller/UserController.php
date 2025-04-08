@@ -18,14 +18,12 @@ final class UserController extends AbstractController
     #[Route(name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $user = null;
-
-        if ($request->query->get('followed')) {
-            $user = $this->getUser();
-        }
+        $user = $this->getUser();
+        $follow = $request->query->getBoolean('follow');
+        $page = $request->query->get('page', 1);
 
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAllUsers($user),
+            'users' => $userRepository->findAllUsers($page, $user, $follow),
         ]);
     }
 

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -12,44 +14,33 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, Post::class);
     }
 
-    public function findAllWithJoin($tag): array
+    public function findFilteredPosts($page, $tag = null, $follow = null, $user = null): PaginationInterface
     {
         $qb = $this->createQueryBuilder('p')
-                ->addSelect('a', 't', 'c', 'l')
-                ->innerJoin('p.author', 'a')
-                ->leftJoin('p.comments', 'c')
-                ->leftJoin('p.likes', 'l')
-                ->leftJoin('p.tags', 't')
-                ->orderBy('p.createdAt', 'DESC');
+            ->addSelect('a', 't', 'c', 'l')
+            ->innerJoin('p.author', 'a')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.likes', 'l')
+            ->leftJoin('p.tags', 't')
+            ->orderBy('p.createdAt', 'DESC');
 
-        if ($tag !== null) {
+        if ($tag) {
             $qb->andWhere(':tag MEMBER OF p.tags')
                 ->setParameter('tag', $tag);
         }
 
-        return $qb->getQuery()
-                ->getResult();
-    }
+        if ($follow && $user) {
+            $qb->innerJoin('a.followers', 'f')
+                ->where('f.follower = :currentUser')
+                ->setParameter('currentUser', $user);
+        }
 
-    public function findPostsFromFollowedUsers(User $user)
-    {
-        return $this->createQueryBuilder('p')
-            ->addSelect('u', 'c', 'l', 't')
-            ->innerJoin('p.author', 'u')
-            ->innerJoin('u.followers', 'f')
-            ->leftJoin('p.comments', 'c')
-            ->leftJoin('p.likes', 'l')
-            ->leftJoin('p.tags', 't')
-            ->where('f.follower = :currentUser')
-            ->setParameter('currentUser', $user)
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+        return $this->paginator->paginate($qb, $page, 10);
     }
 
     public function findWithJoin(int $id): ?Post

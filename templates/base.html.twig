@@ -40,7 +40,10 @@
 							</li>
 						{% else %}
 							<li>
-								<a class="dropdown-item" href="">Logout</a>
+								<a class="dropdown-item" href="{{ path('app_user_show', {id: app.user.id}) }}">Profile</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -55,22 +58,22 @@
 						<nav class="sidebar">
 							<div>
 								<ul>
-									<li><a class="link-menu" href="{{ path('app_post_index') }}"><i class="fa-fw fa-solid fa-newspaper"></i><div class="text-menu"><span>Newest and Recent</span><span>Find the latest update</span></div></a></li>
-									<li><a class="link-menu" href="{{ path('app_post_index', {param: 'populars'}) }}"><i class="fa-fw fa-solid fa-fire"></i><div class="text-menu"><span>Popular of the day</span><span>Shots featured today by curators</span></div></a></li>
-									<li><a class="link-menu" href="{{ path('app_post_feed') }}"><i class="fa-fw fa-solid fa-person-hiking"></i><div class="text-menu"><span>Followed</span><span>Explore from your favorite persons</span></div></a></li>
+									<li><a class="link-menu"href="{{ path('app_post_index') }}"><i class="fa-fw fa-solid fa-newspaper"></i><div class="text-menu"><span>Newest and Recent</span><span>Find the latest update</span></div></a></li>
+									<li><a class="link-menu"href="{{ path('app_post_index', {param: 'populars'}) }}"><i class="fa-fw fa-solid fa-fire"></i><div class="text-menu"><span>Popular of the day</span><span>Shots featured today by curators</span></div></a></li>
+									<li><a class="link-menu"href="{{ path('app_post_index', {follow: true}) }}"><i class="fa-fw fa-solid fa-person-hiking"></i><div class="text-menu"><span>Followed</span><span>Explore from your favorite persons</span></div></a></li>
 								</ul>
 							</div>
 							<div>
 								<ul>
-									<li><a class="link-menu" href="{{ path('app_user_index') }}"><i class="fa-fw fa-solid fa-user"></i><div class="text-menu"><span>Users</span><span>Find you favorites users</span></div></a></li>
-									<li><a class="link-menu" href="{{ path('app_tag_index') }}"><i class="fa-fw fa-solid fa-hashtag"></i><div class="text-menu"><span>Tags</span><span>Explore all tags</span></div></a></li>
+									<li><a class="link-menu"href="{{ path('app_user_index') }}"><i class="fa-fw fa-solid fa-user"></i><div class="text-menu"><span>Users</span><span>Find you favorites users</span></div></a></li>
+									<li><a class="link-menu"href="{{ path('app_tag_index') }}"><i class="fa-fw fa-solid fa-hashtag"></i><div class="text-menu"><span>Tags</span><span>Explore all tags</span></div></a></li>
 								</ul>
 							</div>
 						</nav>
 					</div>
 					<div id="main-container" class="col-9">
 						<div class="row">
-								{% block main %}{% endblock %}
+							{% block main %}{% endblock %}
 						</div>
 					</div>
 				</div>

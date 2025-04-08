@@ -9,7 +9,7 @@
 			<a href="{{ path('app_user_index') }}">All</a>
 		</span>
 		<span>
-			<a href="{{ path('app_user_index', {followed: ' '}) }}">Followed</a>
+			<a href="{{ path('app_user_index', {follow: true}) }}">Followed</a>
 		</span>
 	</div>
 	<div class="users-container">
@@ -21,6 +21,8 @@
 				</article>
 			</a>
 		{% endfor %}
-
+	</div>
+	<div class="pagination d-flex justify-content-center">
+		{{ knp_pagination_render(users) }}
 	</div>
 {% endblock %}

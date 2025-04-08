@@ -6,10 +6,14 @@
 			{% for tag in tags %}
 				<div class="tag-card">
 					<span class="tag-name">{{ tag.name }}</span>
-					<span class="tag-post-count">{{ tag.postCount }} posts</span>
-					<a href="{{ path('app_post_index', {'tag': tag.name}) }}"></a>
+					<span class="tag-post-count">{{ tag.postCount }}
+						posts</span>
+					<a href="{{ path('app_post_index', {'tag': tag.id}) }}"></a>
 				</div>
 			{% endfor %}
+		</div>
+		<div class="pagination d-flex justify-content-center">
+			{{ knp_pagination_render(tags) }}
 		</div>
 	</div>
 {% endblock %}

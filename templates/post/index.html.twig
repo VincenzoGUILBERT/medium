@@ -3,16 +3,13 @@
 {% block title %}Post index
 {% endblock %}
 
-{% if app.request.query.get('param') == 'populars' %}
-	{% set posts =  posts | sort((a, b) => a.likes | length < b.likes | length) %}
-{% endif %}
-
 {% block main %}
 	<div class="col-9">
 		{% for post in posts %}
 			{{ include('post/_post_card.html.twig') }}
 		{% endfor %}
+		<div class="pagination d-flex justify-content-center">
+			{{ knp_pagination_render(posts) }}
+		</div>
 	</div>
-
-
 {% endblock %}
