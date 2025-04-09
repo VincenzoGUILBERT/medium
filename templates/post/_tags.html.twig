@@ -1,8 +1,12 @@
-{% if not post.tags.empty %}
-	{% for tag in post.tags %}
-		{% set isSameTag = tag.id == app.request.query.get('tag') %}
-		<a href="{{ path('app_post_index', {'tag': isSameTag ? null : tag.id}) }}" class="tag-badge badge text-bg-{{ isSameTag ? 'success' : 'secondary' }}">
-			{{ tag.name }}
-		</a>
-	{% endfor %}
-{% endif %}
+<div class="tags">
+	{% if not post.tags.empty %}
+		{% for tag in post.tags %}
+			{% set isSameTag = tag.id == app.request.query.get('tag') %}
+			<span style="background-color: {{isSameTag ? '#00d343'}}">
+				<a href="{{ path('app_post_index', {'tag': isSameTag ? null : tag.id}) }}">
+					{{ tag.name }}
+				</a>
+			</span>
+		{% endfor %}
+	{% endif %}
+</div>

@@ -1,6 +1,16 @@
 import '../styles/app.scss';
 import '../styles/post.scss';
 import '../styles/user.scss';
+import '../styles/comment.scss';
+
+let drop = document.querySelector('.drop')
+document.querySelector('.nav-profile').addEventListener("click", () => {
+	if (drop.style.display === 'block') {
+		drop.style.display = 'none'
+	} else {
+		drop.style.display = 'block'
+	}
+})
 
 document.querySelectorAll(".like-button").forEach((button) => {
 	button.addEventListener("click", function () {

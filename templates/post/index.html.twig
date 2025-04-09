@@ -3,13 +3,29 @@
 {% block title %}Post index
 {% endblock %}
 
+{% set param = app.request.query.get('sort') %}
+
 {% block main %}
-	<div class="col-9">
-		{% for post in posts %}
-			{{ include('post/_post_card.html.twig') }}
-		{% endfor %}
-		<div class="pagination d-flex justify-content-center">
-			{{ knp_pagination_render(posts) }}
+	<div class="select">
+		<input type="search" name="search" id="search" class="search" placeholder="Search">
+		<div class="sort d-flex">
+			<div>
+				<a href="{{ path('app_post_index', {'sort': 'new'}) }}" class="{{ param == 'new' or param == null ? 'sort-active' }}">New</a>
+			</div>
+			<div>
+				<a href="{{ path('app_post_index', {'sort': 'populars'}) }}" class="{{ param == 'populars' ? 'sort-active' }}">Populars</a>
+			</div>
+			{% if app.user %}
+				<div>
+					<a href="{{ path('app_post_index', {'sort': 'following'}) }}" class="{{ param == 'following' ? 'sort-active' }}">Following</a>
+				</div>
+			{% endif %}
 		</div>
+	</div>
+	{% for post in posts %}
+		{{ include('post/_post_card.html.twig') }}
+	{% endfor %}
+	<div class="pagination d-flex justify-content-center">
+		{{ knp_pagination_render(posts) }}
 	</div>
 {% endblock %}

@@ -4,25 +4,27 @@
 {% endblock %}
 
 {% block main %}
-	<div class="select d-flex gap-5">
-		<span>
-			<a href="{{ path('app_user_index') }}">All</a>
-		</span>
-		<span>
-			<a href="{{ path('app_user_index', {follow: true}) }}">Followed</a>
-		</span>
-	</div>
-	<div class="users-container">
-		{% for user in users %}
-			<a href="{{ path('app_user_show', {id: user.id}) }}">
-				<article class="user-card">
-					<img src="https://placehold.co/400" alt="" class="user-image">
-					<span>{{ user.username }}</span>
-				</article>
-			</a>
-		{% endfor %}
-	</div>
-	<div class="pagination d-flex justify-content-center">
-		{{ knp_pagination_render(users) }}
+	<div class="col-10 wrapper">
+		<div class="select d-flex gap-5">
+			<span>
+				<a href="{{ path('app_user_index') }}">All</a>
+			</span>
+			<span>
+				<a href="{{ path('app_user_index', {follow: true}) }}">Followed</a>
+			</span>
+		</div>
+		<div class="users-container">
+			{% for user in users %}
+				<a href="{{ path('app_user_show', {id: user.id}) }}">
+					<article class="user-card">
+						<img src="https://placehold.co/400" alt="" class="user-image">
+						<span>{{ user.username }}</span>
+					</article>
+				</a>
+			{% endfor %}
+		</div>
+		<div class="pagination d-flex justify-content-center">
+			{{ knp_pagination_render(users) }}
+		</div>
 	</div>
 {% endblock %}

@@ -1,8 +1,7 @@
-<h3>Add a comment</h3>
 {{ form_start(form, {method: 'POST', action: path('app_comment_new', {'id': post.id})}) }}
 {{ form_widget(form) }}
 <div class="form-group d-flex justify-content-end">
-	<button class="btn btn-primary" type="submit">
+	<button class="btn btn-primary btn-sm" type="submit">
 		Send
 		<i class="fa fa-paper-plane mr-1" aria-hidden="true"></i>
 	</button>

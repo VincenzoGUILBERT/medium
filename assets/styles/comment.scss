@@ -1,0 +1,32 @@
+.comment {
+	padding: 2em 0;
+	border-bottom: 1px solid rgb(239, 239, 239);
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.5em;
+	}
+	.author {
+		display: flex;
+		align-items: center;
+	}
+	.author-img {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		object-fit: cover;
+		margin-right: 0.5em;
+	}
+	.info span {
+		display: block;
+	}
+
+	.info span:nth-of-type(2) {
+		font-size: 0.7em;
+		color: rgb(68, 68, 68);
+	}
+    .content{
+        margin: 0;
+    }
+}

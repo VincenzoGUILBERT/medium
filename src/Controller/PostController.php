@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,13 +19,13 @@ final class PostController extends AbstractController
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
     public function index(Request $request, PostRepository $postRepository): Response
     {
+        $user = $this->getUser();
         $page = $request->query->get('page', 1);
         $tag = $request->query->get('tag');
-        $follow = $request->query->getBoolean('follow');
-        $user = $this->getUser();
+        $sort = $request->query->get('sort');
 
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findFilteredPosts($page, $tag, $follow, $user),
+            'posts' => $postRepository->findFilteredPosts($page, $tag, $sort, $user),
         ]);
     }
 
@@ -49,10 +50,11 @@ final class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(PostRepository $postRepository, $id): Response
+    public function show(PostRepository $postRepository, CommentRepository $commentRepository , $id): Response
     {
         return $this->render('post/show.html.twig', [
-            'post' => $postRepository->findWithJoin($id)
+            'post' => $postRepository->findWithJoin($id),
+            'comments' => $commentRepository->findByPost($id)
         ]);
     }
 

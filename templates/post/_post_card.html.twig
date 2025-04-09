@@ -1,28 +1,25 @@
 <article class="post-card">
-	<img class="image" src="https://placehold.co/800x600" alt="">
+	<a href="{{ path('app_post_show', {id: post.id}) }}" class="post-link"></a>
 	<div class="content">
-		<header class="header">
-			<div class="title">
-				<h1>{{post.title | u.truncate(100, '...')}}</h1>
+		<div class="author">
+			<img src="https://picsum.photos/id/{{post.id}}/800/600" alt="" class="author-img">
+			<span class="author-name">{{post.author.username}}</span>
+		</div>
+		<h1 class="title">{{post.title|u.truncate(200, '...')}}</h1>
+		<p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. it amet consectetur adipisicing elit.</p>
+		<div class="footer">
+			{{ include('post/_tags.html.twig') }}
+			<div class="stats">
+				<span class="date">
+					{{post.createdAt | date('d/m/Y')}}
+				</span>
+				<span>
+					<i class="fa-regular fa-comment"></i>
+					{{post.comments|length}}
+				</span>
 				{{ include('like/_button.html.twig', {type: 'post', entity: post}) }}
 			</div>
-			<div class="tags">
-				{{ include('post/_tags.html.twig') }}
-			</div>
-		</header>
-		<footer class="footer">
-			<div class="author">
-				<img class="author-image" src="https://placehold.co/400" alt="">
-				<div class="username">
-					<span>{{post.author.username}}</span>
-					<span>Le
-						{{post.createdAt | date("d/m/Y")}}</span>
-				</div>
-			</div>
-			<div class="stats">
-				<span>{{ post.comments | length }} comments</span>
-			</div>
-		</footer>
+		</div>
 	</div>
-	<a class="post-link" href="{{ path('app_post_show', {'id': post.id}) }}"></a>
-</hr></article>
+	<img src="https://picsum.photos/id/{{post.id}}/800/600" alt="" class="post-img">
+</article>

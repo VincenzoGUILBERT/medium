@@ -27,16 +27,6 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/feed', name: 'app_post_feed', methods: ['GET'])]
-    public function feed(PostRepository $postRepository): Response
-    {
-        $user = $this->getUser();
-
-        return $this->render('/post/index.html.twig', [
-            'posts' => $postRepository->findPostsFromFollowedUsers($user)
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user, PostRepository $postRepository): Response
     {

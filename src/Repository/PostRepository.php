@@ -19,39 +19,44 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    public function findFilteredPosts($page, $tag = null, $follow = null, $user = null): PaginationInterface
+    public function findFilteredPosts($page, $tag = null, $sort = null, $user = null): PaginationInterface
     {
         $qb = $this->createQueryBuilder('p')
             ->addSelect('a', 't', 'c', 'l')
             ->innerJoin('p.author', 'a')
             ->leftJoin('p.comments', 'c')
             ->leftJoin('p.likes', 'l')
-            ->leftJoin('p.tags', 't')
-            ->orderBy('p.createdAt', 'DESC');
+            ->leftJoin('p.tags', 't');
 
         if ($tag) {
             $qb->andWhere(':tag MEMBER OF p.tags')
                 ->setParameter('tag', $tag);
         }
 
-        if ($follow && $user) {
-            $qb->innerJoin('a.followers', 'f')
-                ->where('f.follower = :currentUser')
-                ->setParameter('currentUser', $user);
+        switch ($sort) {
+            case 'new':
+                $qb->orderBy('p.createdAt', 'DESC');
+                break;
+            case 'populars':
+                $qb->orderBy('l', 'DESC');
+            case 'following':
+                $qb->innerJoin('a.followers', 'f')
+                    ->where('f.follower = :currentUser')
+                    ->setParameter('currentUser', $user);
+            default:
+                $qb->orderBy('p.createdAt', 'DESC');
+                break;
         }
-
         return $this->paginator->paginate($qb, $page, 10);
     }
 
     public function findWithJoin(int $id): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->addSelect('pa', 'c', 'ca', 't', 'l')
-            ->innerJoin('p.author', 'pa')
-            ->leftJoin('p.comments', 'c')
-            ->innerJoin('c.author', 'ca')
+            ->addSelect('p', 't', 'l')
+            ->innerJoin('p.author', 'a')
             ->leftJoin('p.tags', 't')
-            ->leftJoin('c.likes', 'l')
+            ->leftJoin('p.likes', 'l')
             ->where('p.id = :id')
             ->setParameter('id', $id)
             ->getQuery()

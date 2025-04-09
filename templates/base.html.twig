@@ -20,30 +20,39 @@
 	</head>
 	<body>
 
-		<nav class="navbar">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="{{ path('app_post_index') }}">Medium</a>
-				<form class="d-flex w-50 position-absolute search" role="search">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-				</form>
-				<div class="dropdown position-relative">
-					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<i class="fa-fw fa-solid fa-user-tie fa-xl"></i>
-					</button>
-					<ul class="dropdown-menu position-absolute">
+		<nav class="nav">
+			<a href="{{ path('app_post_index') }}" class="nav-brand">Medium</a>
+			<div class="nav-ls">
+				<span class="nav-i">
+					<a href="{{ path('app_tag_index') }}" class="nav-l">
+						<i class="fa-fw fa-solid fa-hashtag"></i>
+					</a>
+				</span>
+				<span class="nav-i">
+					<a href="{{ path('app_user_index') }}" class="nav-l">
+						<i class="fa-fw fa-solid fa-user"></i>
+					</a>
+				</span>
+				<span class="nav-i">
+					<a href="{{ path('app_post_new') }}" class="nav-l">
+						<i class="fa-regular fa-pen-to-square"></i>
+					</a>
+				</span>
+				<span class="nav-profile">
+					<img class="author-image" src="https://placehold.co/400" alt=""/>
+				</span>
+				<div class="drop">
+					<ul>
 						{% if not app.user %}
 							<li>
-								<a class="dropdown-item" href="{{ path('app_login') }}">Sign in</a>
+								<a href="{{ path('app_login') }}">Sign in</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="{{ path('app_register') }}">Sign up</a>
+								<a href="{{ path('app_logout') }}">Sign out</a>
 							</li>
 						{% else %}
 							<li>
-								<a class="dropdown-item" href="{{ path('app_user_show', {id: app.user.id}) }}">Profile</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+								<a href="{{ path('app_register') }}">Sign up</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -51,33 +60,17 @@
 			</div>
 		</nav>
 
-		<div id="body-container" class="container-fluid">
-			{% block body %}
-				<div class="row">
-					<div id="sidebar-container" class="col-3">
-						<nav class="sidebar">
-							<div>
-								<ul>
-									<li><a class="link-menu"href="{{ path('app_post_index') }}"><i class="fa-fw fa-solid fa-newspaper"></i><div class="text-menu"><span>Newest and Recent</span><span>Find the latest update</span></div></a></li>
-									<li><a class="link-menu"href="{{ path('app_post_index', {param: 'populars'}) }}"><i class="fa-fw fa-solid fa-fire"></i><div class="text-menu"><span>Popular of the day</span><span>Shots featured today by curators</span></div></a></li>
-									<li><a class="link-menu"href="{{ path('app_post_index', {follow: true}) }}"><i class="fa-fw fa-solid fa-person-hiking"></i><div class="text-menu"><span>Followed</span><span>Explore from your favorite persons</span></div></a></li>
-								</ul>
-							</div>
-							<div>
-								<ul>
-									<li><a class="link-menu"href="{{ path('app_user_index') }}"><i class="fa-fw fa-solid fa-user"></i><div class="text-menu"><span>Users</span><span>Find you favorites users</span></div></a></li>
-									<li><a class="link-menu"href="{{ path('app_tag_index') }}"><i class="fa-fw fa-solid fa-hashtag"></i><div class="text-menu"><span>Tags</span><span>Explore all tags</span></div></a></li>
-								</ul>
-							</div>
-						</nav>
-					</div>
+		<div id="body-container" class="container">
+			<div class="row justify-content-center">
+				{% block body %}
 					<div id="main-container" class="col-9">
-						<div class="row">
-							{% block main %}{% endblock %}
-						</div>
+						{% block main %}{% endblock %}
 					</div>
-				</div>
-			{% endblock %}
+					<div id="aside-container" class="col-3">
+						{% block aside %}{% endblock %}
+					</div>
+				{% endblock %}
+			</div>
 		</div>
 	</body>
 </html>
